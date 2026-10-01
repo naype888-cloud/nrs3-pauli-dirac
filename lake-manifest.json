@@ -1,7 +1,7 @@
 {
  "version": "1.2.0",
  "packagesDir": ".lake/packages",
- "name": "NRS3Dirac",
+ "name": "NRS3PauliDirac",
  "lakeDir": ".lake",
  "fixedToolchain": false,
  "packages": [
