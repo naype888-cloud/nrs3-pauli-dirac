@@ -62,14 +62,42 @@ lake env lean Verification/Axioms.lean   # only propext, Classical.choice, Quot.
 
 Every file: no `sorry`, lines of at most 100 characters, English headers.
 
+## Timeline 1911–1945
+
+NRS answers a question of the Solvay era with later tools. The series is placed in that window:
+what falls inside it is the history the theorem belongs to; what falls after it is a proposal,
+not part of NRS³.
+
+| Year | Event | Repository |
+|---|---|---|
+| 1911 | First Solvay conference: radiation and the quanta | |
+| 1911–12 | Poincaré: Planck's law forces discrete levels | [`nrs3-poincare`](https://github.com/naype888-cloud/nrs3-poincare) |
+| 1915–20 | Szegő: limit theorems for Toeplitz matrices (the limit `C∞`, `D8`) | [base repository (NRS, NRS³)](https://github.com/naype888-cloud/nava-robertson-schrodinger) |
+| 1925–27 | Pauli: exclusion, shells `2n²`, spin matrices | **[`nrs3-pauli-dirac`](https://github.com/naype888-cloud/nrs3-pauli-dirac)** (this one) |
+| 1927 | Heisenberg's relation; fifth Solvay conference: electrons and photons | |
+| 1928 | Dirac: the `4 × 4` gamma matrices | **[`nrs3-pauli-dirac`](https://github.com/naype888-cloud/nrs3-pauli-dirac)** (this one) |
+| **1929–30** | **Robertson and Schrödinger: the uncertainty inequality** | **[base repository (NRS, NRS³)](https://github.com/naype888-cloud/nava-robertson-schrodinger)** |
+| 1945–46 | Mandelstam–Tamm: the time–energy bound; Rao (1945), Cramér (1946) | [`nrs3-mandelstam-tamm-cramer-rao`](https://github.com/naype888-cloud/nrs3-mandelstam-tamm-cramer-rao) |
+
+**Tools from after the window.** Niven (1956: rational values of the trigonometric functions),
+Fiedler (1973: algebraic connectivity), Lean 4 and Mathlib (the verification). The question is
+of 1929; the tools are later; the checking is of 2026.
+
+**After the window: proposals, not NRS³.** [`nrs3-penrose`](https://github.com/naype888-cloud/nrs3-penrose) (Penrose 1996, gravity-related
+collapse) and [`nrs3-rovelli-lqg`](https://github.com/naype888-cloud/nrs3-rovelli-lqg) (loop quantum gravity, area spectrum 1995). They use NRS³ results
+but their physical readings belong to quantum information and quantum gravity.
+[`nrs3-defect-curvature`](https://github.com/naype888-cloud/nrs3-defect-curvature) restates base theorems (`D16`–`D16i`); its Bekenstein–Hawking (1973–75) reading
+is a declared bridge.
+
 ## The mosaic
 
 - [NRS and NRS³ — the base theorem](https://github.com/naype888-cloud/nava-robertson-schrodinger)
 - [NRS³ · Mandelstam–Tamm and Cramér–Rao](https://github.com/naype888-cloud/nrs3-mandelstam-tamm-cramer-rao)
-- [NRS³ · Penrose](https://github.com/naype888-cloud/nrs3-penrose)
+- [NRS³ · Penrose](https://github.com/naype888-cloud/nrs3-penrose) (proposal)
 - **[NRS³ · Pauli–Dirac](https://github.com/naype888-cloud/nrs3-pauli-dirac)** (this one)
 - [NRS³ · Poincaré](https://github.com/naype888-cloud/nrs3-poincare)
 - [NRS³ · Defect and curvature](https://github.com/naype888-cloud/nrs3-defect-curvature)
+- [NRS³ · Rovelli — Loop Quantum Gravity](https://github.com/naype888-cloud/nrs3-rovelli-lqg) (proposal)
 
 ## License
 
