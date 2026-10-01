@@ -3,6 +3,8 @@
 **Two fermions cannot share a state, `2 × 2` holds exactly three anticommuting spin matrices, and
 adding time forces `4 × 4`** — Pauli 1925–27 and Dirac 1928 in Lean 4.
 
+**[▶ Try it: spin, exclusion, shells and Dirac's table, live](https://naype888-cloud.github.io/nrs3-pauli-dirac/)**
+
 ![NRS³ · Pauli–Dirac](docs/figures/pauli1925.png)
 
 ## Results
