@@ -27,17 +27,21 @@ def fig_dirac():
     gs = fig.add_gridspec(2, 6, width_ratios=[2.2, 0.15, 1, 1, 1, 1], hspace=0.45, wspace=0.35)
 
     ax = fig.add_subplot(gs[:, 0])
-    ns = np.arange(1, 7)
-    cols = [MUTED if n < 4 else (ORANGE if n == 4 else BLUE) for n in ns]
+    ns = np.arange(1, 9)
+    cols = [MUTED if n < 4 else (ORANGE if n == 4 else (BLUE if n % 4 == 0 else GRID))
+            for n in ns]
     ax.bar(ns, ns ** 2, color=cols, width=0.62, zorder=3)
     ax.axhline(16, color=INK2, lw=1.4, ls="--", zorder=4)
     ax.text(0.6, 16.8, "16 independent monomials", color=INK2, fontsize=9.5)
     ax.text(2, 2.8 ** 2 + 1, "n² < 16:\nimpossible", ha="center", color=INK2, fontsize=9.5)
     ax.text(4, 22.5, "attained\n(Dirac)", ha="center", color=ORANGE, fontsize=9.5)
+    ax.text(6, 52, "n = 5, 6, 7: none\n(only n = 4k, standard;\nnot formalized here)",
+            ha="center", color=INK2, fontsize=8.5)
+    ax.text(8, 66, "4 ⊕ 4", ha="center", color=BLUE, fontsize=9.5)
     ax.set_xticks(ns)
     ax.set_xlabel("matrix size  n")
     ax.set_ylabel("dim Matₙ(ℂ) = n²")
-    ax.set_ylim(0, 40)
+    ax.set_ylim(0, 72)
     ax.grid(axis="y", color=GRID, zorder=0)
     ax.set_title("Minimal dimension = 4  (Lean: isLeast_dim)", loc="left", fontsize=11.5)
 
