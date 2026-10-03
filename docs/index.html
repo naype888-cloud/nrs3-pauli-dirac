@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pauli–Dirac Playground</title>
-<meta name="description" content="Spin on the sphere, exclusion on a grid, shells filling to 2n², and Dirac's sixteen anticommutators, live.">
+<title>Pauli Playground</title>
+<meta name="description" content="Spin on the sphere, exclusion on a grid and shells filling to 2n², live.">
 <style>
   :root { --bg: #fcfcfb; --panel: #fff; --ink: #0b0b0b; --ink2: #52514e; --muted: #8a8985;
     --grid: #e4e3df; --blue: #2a78d6; --orange: #eb6834; --green: #2f8f5b; --soft: rgba(42,120,214,.10); }
@@ -47,15 +47,17 @@
     padding: 8px; overflow-x: auto; margin: 8px 0 0; }
   .note { color: var(--ink2); font-size: .9rem; margin-top: 14px; max-width: 880px; }
   code { font-size: .88em; } a { color: var(--blue); }
+  nav.pages { font-size: .85rem; color: var(--ink2); margin: 0 0 10px; }
 </style>
 </head>
 <body>
 <main>
   <button class="theme" id="theme" type="button" aria-label="Toggle dark mode">Theme</button>
-  <h1>Pauli and Dirac, hands on</h1>
+  <nav class="pages"><b>Pauli 1925–27</b> · <a href="dirac.html">Dirac 1928–29 →</a></nav>
+  <h1>Pauli, hands on</h1>
   <p class="lead">Three anticommuting spin matrices fit in <code>2 × 2</code>, one per axis of NRS³; two fermions
-    never share a state; shells close at <code>2n²</code>; and adding time as a fourth generator forces Dirac's
-    <code>4 × 4</code>. Everything below is computed live.</p>
+    never share a state; shells close at <code>2n²</code>. A fourth generator, time, does not fit:
+    that is <a href="dirac.html">Dirac's page</a>. Everything below is computed live.</p>
 
   <div class="grid">
     <section class="card">
@@ -86,18 +88,12 @@
       <label class="sl">electrons<input id="ne" type="range" min="0" max="18" step="1" value="18"><b id="vne">18</b></label>
     </section>
 
-    <section class="card">
-      <h2>Dirac: the sixteen anticommutators</h2>
-      <p class="sub">Entry μν is <code>{γ<sup>μ</sup>, γ<sup>ν</sup>}</code> computed from the 4 × 4 matrices: <code>2η<sup>μν</sup>·1</code>. Click one.</p>
-      <table class="gam" id="gam" aria-label="Anticommutator table"></table>
-      <pre class="mat" id="mat"></pre>
-    </section>
   </div>
 
   <p class="note">Lean (<a href="https://github.com/naype888-cloud/nrs3-pauli-dirac">nrs3-pauli-dirac</a>):
     <code>antisymmetrize_self</code> (ψ ∧ ψ = 0), <code>shell_card</code> (∑ 2(2l + 1) = 2n²),
-    <code>sigma_mul</code> (σ<sub>x</sub>σ<sub>y</sub> = iσ<sub>z</sub>), <code>no_four_anticommuting</code> (no fourth in 2 × 2),
-    <code>no_dirac_two_by_two</code> and <code>isLeast_dim</code> (the least dimension is 4). Shell numbers are
+    <code>sigma_mul</code> (σ<sub>x</sub>σ<sub>y</sub> = iσ<sub>z</sub>), <code>no_four_anticommuting</code> (no fourth in 2 × 2).
+    Shell numbers are
     capacities, not the lengths of the periods of the table.</p>
 </main>
 <script>
@@ -197,40 +193,6 @@
     g.fillText(`${ne} / ${cap} = 2·${n}²` + (ne === cap ? "  — shell closed" : ""), 8, h - 8);
   }
 
-  // ---------------- Dirac ----------------
-  // complex 4×4 matrices as arrays of [re, im]
-  const C = (re, im = 0) => [re, im];
-  const I = C(0, 1), mI = C(0, -1), O = C(0), P1 = C(1), M1 = C(-1);
-  const G = [
-    [[P1, O, O, O], [O, P1, O, O], [O, O, M1, O], [O, O, O, M1]],
-    [[O, O, O, P1], [O, O, P1, O], [O, M1, O, O], [M1, O, O, O]],
-    [[O, O, O, mI], [O, O, I, O], [O, I, O, O], [mI, O, O, O]],
-    [[O, O, P1, O], [O, O, O, M1], [M1, O, O, O], [O, P1, O, O]]];
-  const mul = (A, B) => A.map((r, i) => B[0].map((_, j) => r.reduce((s, a, k) => {
-    const b = B[k][j]; return [s[0] + a[0] * b[0] - a[1] * b[1], s[1] + a[0] * b[1] + a[1] * b[0]]; }, [0, 0])));
-  const add = (A, B) => A.map((r, i) => r.map((a, j) => [a[0] + B[i][j][0], a[1] + B[i][j][1]]));
-  const fmt = (z) => { const [a, b] = z.map((v) => Math.abs(v) < 1e-12 ? 0 : v);
-    return b === 0 ? `${a}` : a === 0 ? (b === 1 ? "i" : b === -1 ? "−i" : `${b}i`) : `${a}${b > 0 ? "+" : "−"}${Math.abs(b)}i`; };
-  let sel = [0, 0];
-  function drawDirac() {
-    const t = $("gam"); let html = "<tr><th></th>" + [0, 1, 2, 3].map((v) => `<th>γ<sup>${v}</sup></th>`).join("") + "</tr>";
-    for (let m = 0; m < 4; m++) {
-      html += `<tr><th>γ<sup>${m}</sup></th>`;
-      for (let v = 0; v < 4; v++) {
-        const A = add(mul(G[m], G[v]), mul(G[v], G[m])), d = A[0][0][0];
-        const scalar = A.every((r, i) => r.every((z, j) => Math.abs(z[0] - (i === j ? d : 0)) < 1e-12 && Math.abs(z[1]) < 1e-12));
-        const lab = !scalar ? "?" : d === 0 ? "0" : (d > 0 ? "+2" : "−2");
-        html += `<td class="${d > 0 ? "pos" : d < 0 ? "neg" : ""}${sel[0] === m && sel[1] === v ? " sel" : ""}" data-m="${m}" data-v="${v}" tabindex="0">${lab}</td>`;
-      }
-      html += "</tr>";
-    }
-    t.innerHTML = html;
-    t.querySelectorAll("td").forEach((td) => { const go = () => { sel = [+td.dataset.m, +td.dataset.v]; drawDirac(); };
-      td.addEventListener("click", go); td.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") go(); }); });
-    const [m, v] = sel, A = add(mul(G[m], G[v]), mul(G[v], G[m]));
-    $("mat").textContent = `{γ${m}, γ${v}} = γ${m}γ${v} + γ${v}γ${m} =\n` + A.map((r) => r.map((z) => fmt(z).padStart(4)).join(" ")).join("\n");
-  }
-
   // ---------------- wiring ----------------
   function frame(ts) {
     const dt = last ? Math.min(.05, (ts - last) / 1000) : 0; last = ts;
@@ -253,7 +215,7 @@
   $("theme").addEventListener("click", () => { const r = document.documentElement, dk = matchMedia("(prefers-color-scheme: dark)").matches;
     r.dataset.theme = (r.dataset.theme || (dk ? "dark" : "light")) === "dark" ? "light" : "dark"; drawExcl(); drawShell(); });
   window.addEventListener("resize", () => { drawExcl(); drawShell(); });
-  newPair(); drawExcl(); drawShell(); drawDirac(); requestAnimationFrame(frame);
+  newPair(); drawExcl(); drawShell(); requestAnimationFrame(frame);
 })();
 </script>
 </body>

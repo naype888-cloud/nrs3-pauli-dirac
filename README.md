@@ -3,7 +3,8 @@
 **Two fermions cannot share a state, `2 × 2` holds exactly three anticommuting spin matrices, and
 adding time forces `4 × 4`** — Pauli 1925–27 and Dirac 1928 in Lean 4.
 
-**[▶ Try it: spin, exclusion, shells and Dirac's table, live](https://naype888-cloud.github.io/nrs3-pauli-dirac/)**
+**[▶ Try it: Pauli — spin, exclusion and shells](https://naype888-cloud.github.io/nrs3-pauli-dirac/)** ·
+**[▶ Try it: Dirac — the sixteen anticommutators, the curved frame and the mass shell](https://naype888-cloud.github.io/nrs3-pauli-dirac/dirac.html)**
 
 ![NRS³ · Pauli–Dirac](docs/figures/pauli1925.png)
 
@@ -49,6 +50,8 @@ time and gravity enter one relation, `Γ_μ Γ_ν + Γ_ν Γ_μ = 2 g_μν`, and
 | for every invertible tetrad the minimal dimension is still `4` | `Dirac1929.isLeast_dim` |
 
 The metric is a fixed background at one point: nothing here says how matter curves spacetime.
+
+![Dirac 1929](docs/figures/dirac1929_curved.png)
 
 ## In NRS³
 

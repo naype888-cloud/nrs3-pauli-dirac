@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dirac Playground</title>
+<meta name="description" content="Dirac's sixteen anticommutators, and Dirac in curved spacetime: bend the tetrad, walk the mass shell, count the sixteen monomials.">
+<style>
+  :root { --bg: #fcfcfb; --panel: #fff; --ink: #0b0b0b; --ink2: #52514e; --muted: #8a8985;
+    --grid: #e4e3df; --blue: #2a78d6; --orange: #eb6834; --green: #2f8f5b; --soft: rgba(42,120,214,.10); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #111110; --panel: #191918; --ink: #f2f1ee; --ink2: #c4c3bf; --grid: #2c2b29;
+    --blue: #5b9be6; --orange: #f08a5d; --green: #4fb37d; --soft: rgba(91,155,230,.14); } }
+  :root[data-theme="dark"] { --bg: #111110; --panel: #191918; --ink: #f2f1ee; --ink2: #c4c3bf;
+    --grid: #2c2b29; --blue: #5b9be6; --orange: #f08a5d; --green: #4fb37d; --soft: rgba(91,155,230,.14); }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1080px; margin: 0 auto; padding: 24px 16px 40px; }
+  h1 { font-size: 1.45rem; margin: 0 0 4px; font-weight: 650; }
+  .lead { color: var(--ink2); margin: 0 0 16px; max-width: 800px; }
+  .theme { float: right; font: inherit; font-size: .8rem; padding: 4px 10px; border-radius: 999px;
+    border: 1px solid var(--grid); background: var(--panel); color: var(--ink); cursor: pointer; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } }
+  .card { background: var(--panel); border: 1px solid var(--grid); border-radius: 10px; padding: 12px; }
+  .card h2 { font-size: 1rem; margin: 0 0 2px; font-weight: 650; }
+  .card .sub { color: var(--ink2); font-size: .86rem; margin: 0 0 8px; }
+  .sl { display: flex; gap: 10px; align-items: center; font-variant-numeric: tabular-nums; font-size: .9rem; margin: 4px 0; }
+  .sl input { flex: 1; min-width: 0; accent-color: var(--blue); } .sl b { min-width: 3.2em; text-align: right; }
+  button { font: inherit; font-size: .85rem; padding: 5px 11px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--grid); background: var(--panel); color: var(--ink); }
+  button[aria-pressed="true"] { background: var(--blue); border-color: var(--blue); color: #fff; }
+  button:focus-visible, input:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  canvas { width: 100%; display: block; }
+  #shellc { aspect-ratio: 1 / 1; touch-action: none; cursor: crosshair; } #rank { aspect-ratio: 16 / 9; }
+  .k { color: var(--muted); font-size: .8rem; }
+  .row { display: flex; gap: 14px; flex-wrap: wrap; font-variant-numeric: tabular-nums; margin-top: 6px; }
+  table.gam { border-collapse: collapse; margin: 6px auto 0; font-variant-numeric: tabular-nums; }
+  table.gam td, table.gam th { width: 62px; height: 46px; text-align: center; border: 1px solid var(--grid); }
+  table.gam th { color: var(--muted); font-weight: 500; font-size: .85rem; }
+  table.gam td { cursor: pointer; font-size: .95rem; }
+  table.gam td.pos { background: var(--soft); color: var(--blue); font-weight: 650; }
+  table.gam td.neg { background: rgba(235,104,52,.13); color: var(--orange); font-weight: 650; }
+  table.gam td.sel { outline: 2px solid var(--ink2); outline-offset: -2px; }
+  pre.mat { font-size: .8rem; background: var(--bg); border: 1px solid var(--grid); border-radius: 8px;
+    padding: 8px; overflow-x: auto; margin: 8px 0 0; }
+  .note { color: var(--ink2); font-size: .9rem; margin-top: 14px; max-width: 880px; }
+  code { font-size: .88em; } a { color: var(--blue); }
+  nav.pages { font-size: .85rem; color: var(--ink2); margin: 0 0 10px; }
+  table.g4 { border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: .85rem; margin: 6px 0; }
+  table.g4 td { border: 1px solid var(--grid); padding: 3px 7px; text-align: right; min-width: 52px; }
+  .ok { color: var(--green); font-weight: 650; } .bad { color: var(--orange); font-weight: 650; }
+  .eq { font-size: 1.05rem; text-align: center; margin: 4px 0 14px; }
+</style>
+</head>
+<body>
+<main>
+  <button class="theme" id="theme" type="button" aria-label="Toggle dark mode">Theme</button>
+  <nav class="pages"><a href="index.html">← Pauli 1925–27</a> · <b>Dirac 1928–29</b></nav>
+  <h1>Dirac, flat and curved</h1>
+  <p class="lead">Time as a fourth generator forces <code>4 × 4</code> (1928). In 1929 Weyl and Fock–Ivanenko
+    bent it: a tetrad <code>e</code> writes the metric as <code>g = eᵀηe</code> and the matrices become
+    <code>Γ<sub>μ</sub> = e<sup>a</sup><sub>μ</sub>γ<sub>a</sub></code>. Space, time and gravity in one line:</p>
+  <p class="eq"><code>(Γ(p) − m)(Γ(p) + m) = (g(p, p) − m²) · 1</code></p>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Dirac: the sixteen anticommutators</h2>
+      <p class="sub">Entry μν is <code>{γ<sup>μ</sup>, γ<sup>ν</sup>}</code> computed from the 4 × 4 matrices: <code>2η<sup>μν</sup>·1</code>. Click one.</p>
+      <table class="gam" id="gam" aria-label="Anticommutator table"></table>
+      <pre class="mat" id="mat"></pre>
+    </section>
+
+    <section class="card">
+      <h2>Bend the frame (1929)</h2>
+      <p class="sub">Move the tetrad. The metric <code>g = eᵀηe</code> changes; <code>{Γ<sub>μ</sub>, Γ<sub>ν</sub>} − 2g<sub>μν</sub></code> stays zero.</p>
+      <label class="sl">lapse<input id="ea" type="range" min="0.3" max="2" step="0.01" value="1.3"><b id="vea"></b></label>
+      <label class="sl">shift<input id="es" type="range" min="-1" max="1" step="0.01" value="0.4"><b id="ves"></b></label>
+      <label class="sl">shear<input id="eh" type="range" min="-1" max="1" step="0.01" value="0"><b id="veh"></b></label>
+      <label class="sl">boost χ<input id="ex" type="range" min="-1.5" max="1.5" step="0.01" value="0"><b id="vex"></b></label>
+      <label class="sl">z-scale<input id="eb" type="range" min="0" max="2" step="0.01" value="1"><b id="veb"></b></label>
+      <div>g<sub>μν</sub> =</div><table class="g4" id="gtab" aria-label="Metric"></table>
+      <div class="row"><span>max |{Γ<sub>μ</sub>, Γ<sub>ν</sub>} − 2g<sub>μν</sub>| = <b id="cerr"></b></span>
+        <span>det e = <b id="dete"></b></span></div>
+      <p class="k">A pure boost leaves <code>g = η</code>: it changes the frame, not the geometry.</p>
+    </section>
+
+    <section class="card">
+      <h2>The square root of the metric</h2>
+      <p class="sub">Drag <code>p = (p⁰, p¹)</code>. On the shell <code>g(p, p) = m²</code> (blue) <code>Γ(p) − m</code> is singular:
+        the Dirac equation has solutions there and only there. Grey: the flat shell.</p>
+      <canvas id="shellc" aria-label="Mass shell"></canvas>
+      <label class="sl">mass m<input id="mm" type="range" min="0.2" max="2" step="0.01" value="1"><b id="vmm"></b></label>
+      <div class="row"><span>g(p, p) = <b id="gpp"></b></span><span>det(Γ(p) − m) = <b id="detg"></b></span>
+        <span class="k">(g(p, p) − m²)² = <span id="pred"></span></span></div>
+      <div class="row"><span>Γ(p)² − g(p, p)·1: max entry <b id="sqerr"></b></span><span id="onshell"></span></div>
+    </section>
+
+    <section class="card">
+      <h2>Gravity does not move the 4</h2>
+      <p class="sub">Rank of the 16 ordered monomials <code>Γ<sub>μ₁</sub>⋯Γ<sub>μₖ</sub></code>, computed from the current tetrad.
+        Sixteen independent matrices need <code>n² ≥ 16</code>, so <code>n ≥ 4</code>. Push the z-scale to 0 (a singular tetrad) and it drops.</p>
+      <canvas id="rank" aria-label="Rank of the monomials"></canvas>
+    </section>
+  </div>
+
+  <p class="note">Lean (<a href="https://github.com/naype888-cloud/nrs3-pauli-dirac">nrs3-pauli-dirac</a>):
+    1928, <code>no_dirac_two_by_two</code> and <code>isLeast_dim</code> (the least dimension is 4);
+    1929, <code>IsClifford.transform</code>, <code>IsClifford.symbol_mul_self</code> (<code>Γ(p)² = g(p, p)·1</code>),
+    <code>IsClifford.dirac_factorization</code>, <code>tetrad_isClifford</code> and <code>Dirac1929.isLeast_dim</code>
+    (for every invertible tetrad the least dimension is still 4). The metric is a fixed background at one point:
+    nothing here says how matter curves spacetime.</p>
+</main>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  function setup(c) {
+    const r = c.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+    c.width = Math.round(r.width * dpr); c.height = Math.round(r.height * dpr);
+    const g = c.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0); return [g, r.width, r.height];
+  }
+
+  // ---------------- Dirac ----------------
+  // complex 4×4 matrices as arrays of [re, im]
+  const C = (re, im = 0) => [re, im];
+  const I = C(0, 1), mI = C(0, -1), O = C(0), P1 = C(1), M1 = C(-1);
+  const G = [
+    [[P1, O, O, O], [O, P1, O, O], [O, O, M1, O], [O, O, O, M1]],
+    [[O, O, O, P1], [O, O, P1, O], [O, M1, O, O], [M1, O, O, O]],
+    [[O, O, O, mI], [O, O, I, O], [O, I, O, O], [mI, O, O, O]],
+    [[O, O, P1, O], [O, O, O, M1], [M1, O, O, O], [O, P1, O, O]]];
+  const mul = (A, B) => A.map((r, i) => B[0].map((_, j) => r.reduce((s, a, k) => {
+    const b = B[k][j]; return [s[0] + a[0] * b[0] - a[1] * b[1], s[1] + a[0] * b[1] + a[1] * b[0]]; }, [0, 0])));
+  const add = (A, B) => A.map((r, i) => r.map((a, j) => [a[0] + B[i][j][0], a[1] + B[i][j][1]]));
+  const fmt = (z) => { const [a, b] = z.map((v) => Math.abs(v) < 1e-12 ? 0 : v);
+    return b === 0 ? `${a}` : a === 0 ? (b === 1 ? "i" : b === -1 ? "−i" : `${b}i`) : `${a}${b > 0 ? "+" : "−"}${Math.abs(b)}i`; };
+  let sel = [0, 0];
+  function drawDirac() {
+    const t = $("gam"); let html = "<tr><th></th>" + [0, 1, 2, 3].map((v) => `<th>γ<sup>${v}</sup></th>`).join("") + "</tr>";
+    for (let m = 0; m < 4; m++) {
+      html += `<tr><th>γ<sup>${m}</sup></th>`;
+      for (let v = 0; v < 4; v++) {
+        const A = add(mul(G[m], G[v]), mul(G[v], G[m])), d = A[0][0][0];
+        const scalar = A.every((r, i) => r.every((z, j) => Math.abs(z[0] - (i === j ? d : 0)) < 1e-12 && Math.abs(z[1]) < 1e-12));
+        const lab = !scalar ? "?" : d === 0 ? "0" : (d > 0 ? "+2" : "−2");
+        html += `<td class="${d > 0 ? "pos" : d < 0 ? "neg" : ""}${sel[0] === m && sel[1] === v ? " sel" : ""}" data-m="${m}" data-v="${v}" tabindex="0">${lab}</td>`;
+      }
+      html += "</tr>";
+    }
+    t.innerHTML = html;
+    t.querySelectorAll("td").forEach((td) => { const go = () => { sel = [+td.dataset.m, +td.dataset.v]; drawDirac(); };
+      td.addEventListener("click", go); td.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") go(); }); });
+    const [m, v] = sel, A = add(mul(G[m], G[v]), mul(G[v], G[m]));
+    $("mat").textContent = `{γ${m}, γ${v}} = γ${m}γ${v} + γ${v}γ${m} =\n` + A.map((r) => r.map((z) => fmt(z).padStart(4)).join(" ")).join("\n");
+  }
+
+
+  // ---------------- 1929: curved ----------------
+  const ETA = [1, -1, -1, -1];
+  const zero4 = () => Array.from({ length: 4 }, () => Array.from({ length: 4 }, () => [0, 0]));
+  const scale = (s, A) => A.map((r) => r.map((z) => [s * z[0], s * z[1]]));
+  const rmul = (A, B) => A.map((r) => B[0].map((_, j) => r.reduce((s, a, k) => s + a * B[k][j], 0)));
+  const fmtn = (x) => (Math.abs(x) < 5e-13 ? 0 : x).toFixed(3);
+  let E, Gm, Gam, p = [1.4, 0.3], mass = 1;
+  function tetrad() {
+    const a = +$("ea").value, s = +$("es").value, h = +$("eh").value, x = +$("ex").value, b = +$("eb").value;
+    const D = [[a, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, b]];
+    const B = [[Math.cosh(x), Math.sinh(x), 0, 0], [Math.sinh(x), Math.cosh(x), 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]];
+    const S = [[1, s, 0, 0], [h, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]];
+    E = rmul(D, rmul(B, S));
+    Gm = [0, 1, 2, 3].map((m) => [0, 1, 2, 3].map((v) => [0, 1, 2, 3].reduce((t, k) => t + E[k][m] * ETA[k] * E[k][v], 0)));
+    Gam = [0, 1, 2, 3].map((m) => [0, 1, 2, 3].reduce((A, k) => add(A, scale(E[k][m], G[k])), zero4()));
+    for (const [id, v] of [["vea", a], ["ves", s], ["veh", h], ["vex", x], ["veb", b]]) $(id).textContent = v.toFixed(2);
+  }
+  function det(M) {
+    const A = M.map((r) => r.map((z) => [z[0], z[1]])), n = A.length; let d = [1, 0];
+    for (let c = 0; c < n; c++) {
+      let piv = c; for (let r = c + 1; r < n; r++) if (Math.hypot(...A[r][c]) > Math.hypot(...A[piv][c])) piv = r;
+      if (Math.hypot(...A[piv][c]) < 1e-300) return [0, 0];
+      if (piv !== c) { [A[c], A[piv]] = [A[piv], A[c]]; d = [-d[0], -d[1]]; }
+      const q = A[c][c], qq = q[0] * q[0] + q[1] * q[1];
+      d = [d[0] * q[0] - d[1] * q[1], d[0] * q[1] + d[1] * q[0]];
+      for (let r = c + 1; r < n; r++) {
+        const z = A[r][c], f = [(z[0] * q[0] + z[1] * q[1]) / qq, (z[1] * q[0] - z[0] * q[1]) / qq];
+        for (let k = c; k < n; k++) { const w = A[c][k]; A[r][k] = [A[r][k][0] - f[0] * w[0] + f[1] * w[1], A[r][k][1] - f[0] * w[1] - f[1] * w[0]]; }
+      }
+    }
+    return d;
+  }
+  function rank(V) {
+    const A = V.map((r) => r.map((z) => [z[0], z[1]])); let rk = 0; const cols = A[0].length;
+    const tol = 1e-9 * Math.max(1, ...A.flat().map((z) => Math.hypot(...z)));
+    for (let c = 0; c < cols && rk < A.length; c++) {
+      let piv = rk; for (let r = rk + 1; r < A.length; r++) if (Math.hypot(...A[r][c]) > Math.hypot(...A[piv][c])) piv = r;
+      if (Math.hypot(...A[piv][c]) <= tol) continue;
+      [A[rk], A[piv]] = [A[piv], A[rk]]; const q = A[rk][c], qq = q[0] * q[0] + q[1] * q[1];
+      for (let r = rk + 1; r < A.length; r++) {
+        const z = A[r][c], f = [(z[0] * q[0] + z[1] * q[1]) / qq, (z[1] * q[0] - z[0] * q[1]) / qq];
+        for (let k = c; k < cols; k++) { const w = A[rk][k]; A[r][k] = [A[r][k][0] - f[0] * w[0] + f[1] * w[1], A[r][k][1] - f[0] * w[1] - f[1] * w[0]]; }
+      }
+      rk++;
+    }
+    return rk;
+  }
+  function drawFrame() {
+    $("gtab").innerHTML = Gm.map((r) => "<tr>" + r.map((v) => `<td>${fmtn(v)}</td>`).join("") + "</tr>").join("");
+    let err = 0;
+    for (let m = 0; m < 4; m++) for (let v = 0; v < 4; v++) {
+      const A = add(mul(Gam[m], Gam[v]), mul(Gam[v], Gam[m]));
+      for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++)
+        err = Math.max(err, Math.hypot(A[i][j][0] - (i === j ? 2 * Gm[m][v] : 0), A[i][j][1]));
+    }
+    $("cerr").textContent = err.toExponential(1);
+    $("dete").textContent = det(E.map((r) => r.map((x) => [x, 0])))[0].toFixed(3);
+  }
+  const R = 3;
+  function drawShell() {
+    const [g, w, h] = setup($("shellc")), S = Math.min(w, h) / (2 * R), cx = w / 2, cy = h / 2;
+    const X = (u) => cx + u * S, Y = (v) => cy - v * S;
+    g.strokeStyle = css("--grid"); g.lineWidth = 1;
+    for (let k = -R; k <= R; k++) { g.beginPath(); g.moveTo(X(k), 0); g.lineTo(X(k), h); g.moveTo(0, Y(k)); g.lineTo(w, Y(k)); g.stroke(); }
+    g.fillStyle = css("--muted"); g.font = "12px system-ui, sans-serif"; g.fillText("p⁰", w - 18, cy - 6); g.fillText("p¹", cx + 6, 14);
+    const conic = (M, color, lw) => {
+      g.strokeStyle = color; g.lineWidth = lw; let open = false; g.beginPath();
+      for (let i = 0; i <= 2000; i++) {
+        const t = i / 2000 * 2 * Math.PI, c = Math.cos(t), s = Math.sin(t), Q = M[0][0] * c * c + 2 * M[0][1] * c * s + M[1][1] * s * s;
+        if (Q > 1e-4) { const r = mass / Math.sqrt(Q); if (r < 2 * R) { if (open) g.lineTo(X(r * c), Y(r * s)); else g.moveTo(X(r * c), Y(r * s)); open = true; continue; } }
+        open = false;
+      }
+      g.stroke();
+    };
+    conic([[1, 0], [0, -1]], css("--muted"), 1.4);
+    conic(Gm, css("--blue"), 2.4);
+    const pp = [p[0], p[1], 0, 0];
+    const gpp = Gm[0][0] * p[0] * p[0] + 2 * Gm[0][1] * p[0] * p[1] + Gm[1][1] * p[1] * p[1];
+    const Gp = [0, 1, 2, 3].reduce((A, k) => add(A, scale(pp[k], Gam[k])), zero4());
+    const M = Gp.map((r, i) => r.map((z, j) => [z[0] - (i === j ? mass : 0), z[1]]));
+    const d = det(M), sq = mul(Gp, Gp); let se = 0;
+    for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) se = Math.max(se, Math.hypot(sq[i][j][0] - (i === j ? gpp : 0), sq[i][j][1]));
+    const on = Math.abs(gpp - mass * mass) < 0.03;
+    g.fillStyle = on ? css("--green") : css("--orange"); g.beginPath(); g.arc(X(p[0]), Y(p[1]), 7, 0, 2 * Math.PI); g.fill();
+    $("gpp").textContent = gpp.toFixed(3); $("detg").textContent = d[0].toFixed(4);
+    $("pred").textContent = ((gpp - mass * mass) ** 2).toFixed(4); $("sqerr").textContent = se.toExponential(1);
+    $("onshell").innerHTML = on ? '<span class="ok">on shell: Γ(p) − m is singular</span>' : '<span class="k">off shell: Γ(p) − m invertible</span>';
+    $("vmm").textContent = mass.toFixed(2);
+  }
+  function drawRank() {
+    const [g, w, h] = setup($("rank")), mons = [];
+    for (let s = 0; s < 16; s++) {
+      let A = [0, 1, 2, 3].map((i) => [0, 1, 2, 3].map((j) => [i === j ? 1 : 0, 0]));
+      for (let k = 0; k < 4; k++) if (s >> k & 1) A = mul(A, Gam[k]);
+      mons.push(A.flat());
+    }
+    const rk = rank(mons), pad = 34, bw = (w - pad - 10) / 16, top = 16, base = h - 26;
+    g.font = "12px system-ui, sans-serif";
+    for (let i = 1; i <= 16; i++) {
+      g.fillStyle = i <= rk ? css("--blue") : css("--grid");
+      g.fillRect(pad + (i - 1) * bw + 2, top, bw - 4, base - top);
+    }
+    g.fillStyle = css("--ink"); g.font = "600 15px system-ui, sans-serif";
+    g.fillText(`rank ${rk} / 16  ⇒  n² ≥ ${rk}  ⇒  n ≥ ${Math.ceil(Math.sqrt(rk))}`, pad, h - 6);
+  }
+  function redraw() { tetrad(); drawFrame(); drawShell(); drawRank(); }
+  for (const id of ["ea", "es", "eh", "ex", "eb"]) $(id).addEventListener("input", redraw);
+  $("mm").addEventListener("input", (e) => { mass = +e.target.value; drawShell(); });
+  const sc = $("shellc"); let drag = false;
+  const move = (e) => { const r = sc.getBoundingClientRect(), S = Math.min(r.width, r.height) / (2 * R);
+    p = [(e.clientX - r.left - r.width / 2) / S, -(e.clientY - r.top - r.height / 2) / S]; drawShell(); };
+  sc.addEventListener("pointerdown", (e) => { drag = true; sc.setPointerCapture(e.pointerId); move(e); });
+  sc.addEventListener("pointermove", (e) => { if (drag) move(e); });
+  sc.addEventListener("pointerup", () => { drag = false; });
+  $("theme").addEventListener("click", () => { const r = document.documentElement, dk = matchMedia("(prefers-color-scheme: dark)").matches;
+    r.dataset.theme = (r.dataset.theme || (dk ? "dark" : "light")) === "dark" ? "light" : "dark"; redraw(); });
+  window.addEventListener("resize", redraw);
+  drawDirac(); redraw();
+})();
+</script>
+</body>
+</html>
