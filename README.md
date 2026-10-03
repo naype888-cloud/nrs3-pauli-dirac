@@ -93,6 +93,7 @@ not part of NRS³.
 | 1911 | First Solvay conference: radiation and the quanta | |
 | 1911–12 | Poincaré: Planck's law forces discrete levels | [`nrs3-poincare`](https://github.com/naype888-cloud/nrs3-poincare) |
 | 1915–20 | Szegő: limit theorems for Toeplitz matrices (the limit `C∞`, `D8`) | [base repository (NRS, NRS³)](https://github.com/naype888-cloud/nava-robertson-schrodinger) |
+| 1917–27 | Einstein and de Sitter: `Λ` and the empty universe; Friedmann and Lemaître: the expanding universe | [`nrs3-de-sitter`](https://github.com/naype888-cloud/nrs3-de-sitter) |
 | 1925–27 | Pauli: exclusion, shells `2n²`, spin matrices | **[`nrs3-pauli-dirac`](https://github.com/naype888-cloud/nrs3-pauli-dirac)** (this one) |
 | 1927 | Heisenberg's relation; fifth Solvay conference: electrons and photons | |
 | 1928 | Dirac: the `4 × 4` gamma matrices | **[`nrs3-pauli-dirac`](https://github.com/naype888-cloud/nrs3-pauli-dirac)** (this one) |
@@ -114,6 +115,8 @@ is a declared bridge.
 
 - [NRS and NRS³ — the base theorem](https://github.com/naype888-cloud/nava-robertson-schrodinger)
 - [NRS³ · Mandelstam–Tamm and Cramér–Rao](https://github.com/naype888-cloud/nrs3-mandelstam-tamm-cramer-rao)
+- [NRS³ · Landauer and Carnot](https://github.com/naype888-cloud/nrs3-landauer-carnot)
+- [NRS³ · de Sitter](https://github.com/naype888-cloud/nrs3-de-sitter)
 - [NRS³ · Penrose](https://github.com/naype888-cloud/nrs3-penrose) (proposal)
 - **[NRS³ · Pauli–Dirac](https://github.com/naype888-cloud/nrs3-pauli-dirac)** (this one)
 - [NRS³ · Poincaré](https://github.com/naype888-cloud/nrs3-poincare)
