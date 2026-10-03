@@ -34,10 +34,27 @@ on the energy ordering of subshells.
 
 ![Dirac 1928](docs/figures/dirac1928_minimal_dimension.png)
 
+### Weyl and Fock–Ivanenko 1929: Dirac in curved spacetime
+
+A tetrad `e` writes the metric as `g = eᵀ η e`; the curved matrices are `Γ_μ = e^a_μ γ_a`. Space,
+time and gravity enter one relation, `Γ_μ Γ_ν + Γ_ν Γ_μ = 2 g_μν`, and the Dirac symbol
+`Γ(p) = p^μ Γ_μ` is the square root of the metric.
+
+| Statement | Lean |
+|---|---|
+| a change of frame `P` carries `g` to `Pᵀ g P` | `IsClifford.transform` |
+| `Γ(p)² = g(p, p) · 1` | `IsClifford.symbol_mul_self` |
+| `(Γ(p) − m)(Γ(p) + m) = (g(p, p) − m²) · 1`: Klein–Gordon factors into Dirac | `IsClifford.dirac_factorization` |
+| `Γ_μ = e^a_μ γ_a` satisfies the relation for `eᵀ η e` | `tetrad_isClifford` |
+| for every invertible tetrad the minimal dimension is still `4` | `Dirac1929.isLeast_dim` |
+
+The metric is a fixed background at one point: nothing here says how matter curves spacetime.
+
 ## In NRS³
 
 NRS³ has three axes; spin has three generators, one per axis, and `2 × 2` has room for exactly
-three (`no_four_anticommuting`). A fourth generator, time, forces `4 × 4` (`isLeast_dim`).
+three (`no_four_anticommuting`). A fourth generator, time, forces `4 × 4` (`isLeast_dim`), and
+gravity does not move that `4` (`Dirac1929.isLeast_dim`).
 
 ## History
 
@@ -76,6 +93,7 @@ not part of NRS³.
 | 1925–27 | Pauli: exclusion, shells `2n²`, spin matrices | **[`nrs3-pauli-dirac`](https://github.com/naype888-cloud/nrs3-pauli-dirac)** (this one) |
 | 1927 | Heisenberg's relation; fifth Solvay conference: electrons and photons | |
 | 1928 | Dirac: the `4 × 4` gamma matrices | **[`nrs3-pauli-dirac`](https://github.com/naype888-cloud/nrs3-pauli-dirac)** (this one) |
+| 1929 | Weyl, Fock–Ivanenko: Dirac in curved spacetime | **[`nrs3-pauli-dirac`](https://github.com/naype888-cloud/nrs3-pauli-dirac)** (this one) |
 | **1929–30** | **Robertson and Schrödinger: the uncertainty inequality** | **[base repository (NRS, NRS³)](https://github.com/naype888-cloud/nava-robertson-schrodinger)** |
 | 1945–46 | Mandelstam–Tamm: the time–energy bound; Rao (1945), Cramér (1946) | [`nrs3-mandelstam-tamm-cramer-rao`](https://github.com/naype888-cloud/nrs3-mandelstam-tamm-cramer-rao) |
 

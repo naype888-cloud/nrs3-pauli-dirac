@@ -10,3 +10,6 @@ import NRS3PauliDirac
 #print axioms Pauli1925.shell_card
 #print axioms Pauli1925.sigma_mul
 #print axioms Pauli1925.no_four_anticommuting
+#print axioms Dirac1929.IsClifford.dirac_factorization
+#print axioms Dirac1929.tetrad_isClifford
+#print axioms Dirac1929.isLeast_dim
