@@ -53,25 +53,6 @@ The metric is a fixed background at one point: nothing here says how matter curv
 
 ![Dirac 1929](docs/figures/dirac1929_curved.png)
 
-### van der Waerden 1929: the uncertainty cone
-
-A Hermitian `2 × 2` matrix is `v₀ 1 + v₁ σ₁ + v₂ σ₂ + v₃ σ₃`, its determinant is the Minkowski
-interval, and `SL(2, ℂ)` acts on it as the Lorentz group. The Gram matrix of two fluctuation
-vectors is such a matrix: `v₁` is the covariance, `v₂` half the commutator.
-
-| Statement | Lean |
-|---|---|
-| `det (v₀ 1 + v·σ) = v₀² − v₁² − v₂² − v₃²` | `det_herm` |
-| every Hermitian `2 × 2` matrix is `v₀ 1 + v·σ` | `herm_coords` |
-| positive semidefinite means future causal | `future_of_posSemidef` |
-| `SL(2, ℂ)` keeps the interval and the future cone | `det_conj`, `posSemidef_conj` |
-| Robertson–Schrödinger: the Gram matrix of two vectors is future causal | `robertsonSchrodinger_future` |
-| `A → λA`, `B → B/λ` is the boost `diag(λ, λ⁻¹)` | `gram_boost`, `interval_gram_boost` |
-
-Over `ℝ` the commutator component vanishes. The four components are statistics of the pair,
-not coordinates of events. On `T_d : P_d` the speed in the frame `v₃ = 0` is `1 / C_Nava(d)`:
-[base repository, `D50`](https://github.com/naype888-cloud/nava-robertson-schrodinger).
-
 ## In NRS³
 
 NRS³ has three axes; spin has three generators, one per axis, and `2 × 2` has room for exactly
@@ -116,7 +97,6 @@ not part of NRS³.
 | 1925–27 | Pauli: exclusion, shells `2n²`, spin matrices | **[`nrs3-pauli-dirac`](https://github.com/naype888-cloud/nrs3-pauli-dirac)** (this one) |
 | 1927 | Heisenberg's relation; fifth Solvay conference: electrons and photons | |
 | 1928 | Dirac: the `4 × 4` gamma matrices | **[`nrs3-pauli-dirac`](https://github.com/naype888-cloud/nrs3-pauli-dirac)** (this one) |
-| 1929 | van der Waerden: spinors, `SL(2, ℂ)` on Hermitian matrices; the uncertainty cone | **[`nrs3-pauli-dirac`](https://github.com/naype888-cloud/nrs3-pauli-dirac)** (this one) |
 | 1929 | Weyl, Fock–Ivanenko: Dirac in curved spacetime | **[`nrs3-pauli-dirac`](https://github.com/naype888-cloud/nrs3-pauli-dirac)** (this one) |
 | **1929–30** | **Robertson and Schrödinger: the uncertainty inequality** | **[base repository (NRS, NRS³)](https://github.com/naype888-cloud/nava-robertson-schrodinger)** |
 | 1945–46 | Mandelstam–Tamm: the time–energy bound; Rao (1945), Cramér (1946) | [`nrs3-mandelstam-tamm-cramer-rao`](https://github.com/naype888-cloud/nrs3-mandelstam-tamm-cramer-rao) |

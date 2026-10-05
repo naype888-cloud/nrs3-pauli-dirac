@@ -13,8 +13,3 @@ import NRS3PauliDirac
 #print axioms Dirac1929.IsClifford.dirac_factorization
 #print axioms Dirac1929.tetrad_isClifford
 #print axioms Dirac1929.isLeast_dim
-#print axioms VanDerWaerden1929.det_herm
-#print axioms VanDerWaerden1929.herm_coords
-#print axioms VanDerWaerden1929.future_of_posSemidef
-#print axioms VanDerWaerden1929.robertsonSchrodinger_future
-#print axioms VanDerWaerden1929.gram_boost
