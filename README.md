@@ -98,6 +98,7 @@ not part of NRS³.
 | 1927 | Heisenberg's relation; fifth Solvay conference: electrons and photons | |
 | 1928 | Dirac: the `4 × 4` gamma matrices | **[`nrs3-pauli-dirac`](https://github.com/naype888-cloud/nrs3-pauli-dirac)** (this one) |
 | 1929 | Weyl, Fock–Ivanenko: Dirac in curved spacetime | **[`nrs3-pauli-dirac`](https://github.com/naype888-cloud/nrs3-pauli-dirac)** (this one) |
+| 1929 | van der Waerden: spinors, `SL(2, ℂ)` on Hermitian matrices; the uncertainty cone | [`nrs3-uncertainty-cone`](https://github.com/naype888-cloud/nrs3-uncertainty-cone) |
 | **1929–30** | **Robertson and Schrödinger: the uncertainty inequality** | **[base repository (NRS, NRS³)](https://github.com/naype888-cloud/nava-robertson-schrodinger)** |
 | 1945–46 | Mandelstam–Tamm: the time–energy bound; Rao (1945), Cramér (1946) | [`nrs3-mandelstam-tamm-cramer-rao`](https://github.com/naype888-cloud/nrs3-mandelstam-tamm-cramer-rao) |
 
@@ -119,6 +120,7 @@ is a declared bridge.
 - [NRS³ · de Sitter](https://github.com/naype888-cloud/nrs3-de-sitter)
 - [NRS³ · Penrose](https://github.com/naype888-cloud/nrs3-penrose) (proposal)
 - **[NRS³ · Pauli–Dirac](https://github.com/naype888-cloud/nrs3-pauli-dirac)** (this one)
+- [NRS³ · The uncertainty cone](https://github.com/naype888-cloud/nrs3-uncertainty-cone)
 - [NRS³ · Poincaré](https://github.com/naype888-cloud/nrs3-poincare)
 - [NRS³ · Defect and curvature](https://github.com/naype888-cloud/nrs3-defect-curvature)
 - [NRS³ · Rovelli — Loop Quantum Gravity](https://github.com/naype888-cloud/nrs3-rovelli-lqg) (proposal)
