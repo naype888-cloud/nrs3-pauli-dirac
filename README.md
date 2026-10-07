@@ -124,6 +124,7 @@ is a declared bridge.
 - [NRS³ · Poincaré](https://github.com/naype888-cloud/nrs3-poincare)
 - [NRS³ · Defect and curvature](https://github.com/naype888-cloud/nrs3-defect-curvature)
 - [NRS³ · Rovelli — Loop Quantum Gravity](https://github.com/naype888-cloud/nrs3-rovelli-lqg) (proposal)
+- [NRS³ · Dark](https://github.com/naype888-cloud/nrs3-dark)
 
 ## License
 
