@@ -125,6 +125,7 @@ is a declared bridge.
 - [NRS³ · Defect and curvature](https://github.com/naype888-cloud/nrs3-defect-curvature)
 - [NRS³ · Rovelli — Loop Quantum Gravity](https://github.com/naype888-cloud/nrs3-rovelli-lqg) (proposal)
 - [NRS³ · Dark](https://github.com/naype888-cloud/nrs3-dark)
+- [NRS³ · Cristales](https://github.com/naype888-cloud/nrs3-cristales) (español)
 
 ## License
 
