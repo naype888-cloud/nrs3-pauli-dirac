@@ -24,7 +24,7 @@ What Pauli could settle in his own setting, with modern tools.
 * **Spin matrices (1927).** The three Pauli matrices anticommute, square to `1` and multiply
   cyclically, `σ₁σ₂ = iσ₃`; checked by `decide` over `ℤ[i]`. Three is the most `2 × 2` can hold:
   four anticommuting involutions would give five trace-orthogonal matrices in a space of
-  dimension 4. Three generators, one per axis, as the three axes of NRS³.
+  dimension 4. Three generators, one per axis, as the three axes of RS^N³.
 
 ## Main results
 
